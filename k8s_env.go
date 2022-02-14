@@ -2,8 +2,10 @@ package heroyaml
 
 import (
 	"fmt"
+	"strings"
 
-	"gopkg.in/yaml.v2"
+	"github.com/goccy/go-yaml"
+	"github.com/tidwall/gjson"
 )
 
 type k8sEnv struct {
@@ -22,21 +24,49 @@ type K8sEnvConverter struct{}
 var _ Converter = (*K8sEnvConverter)(nil)
 
 func (k K8sEnvConverter) Convert(str string) (string, error) {
-	t := map[string]interface{}{}
-	err := yaml.Unmarshal([]byte(str), &t)
+	data, err := yaml.YAMLToJSON([]byte(str))
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Println(t)
+	json := gjson.Parse(string(data))
+	printJSON(json, "")
+
 	return "", err
 }
 
-func (k K8sEnvConverter) convert(m map[string]interface{}) ([]string, error) {
-	for key, val := range m {
-		switch val.(type) {
-		case []int:
-
+func printJSON(json gjson.Result, preKey string) {
+	json.ForEach(func(key, value gjson.Result) bool {
+		k := key.String()
+		if len(preKey) > 0 {
+			k = fmt.Sprintf("%s.%s", preKey, k)
 		}
-	}
+
+		if value.IsObject() {
+			printJSON(value, k)
+			return true
+		}
+
+		v := value.String()
+		if value.IsArray() {
+			arr := value.Array()
+			strs := make([]string, len(arr))
+			for i, result := range arr {
+				strs[i] = result.String()
+			}
+
+			v = strings.Join(strs, ",")
+		}
+
+		printKV(k, v)
+		return true
+	})
+}
+
+func printKV(k, v string) {
+	k = strings.ToUpper(k)
+	fmt.Printf(`
+- name: "%s"
+  value: "%s"
+`, k, v)
 }
