@@ -1,4 +1,4 @@
-package heroyaml
+package mo
 
 import (
 	"fmt"

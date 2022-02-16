@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/phamvinhdat/heroyaml"
+	"github.com/phamvinhdat/mo"
 )
 
 func main() {
@@ -13,7 +13,7 @@ func main() {
 		fmt.Println("src is required")
 	}
 
-	res, err := heroyaml.K8sEnvConverter{}.Convert(`
+	res, err := mo.K8sEnvConverter{}.Convert(`
 # All configuration options of the service will be specified here.
 
 # Service's info.

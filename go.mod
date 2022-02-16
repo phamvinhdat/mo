@@ -1,4 +1,4 @@
-module github.com/phamvinhdat/heroyaml
+module github.com/phamvinhdat/mo
 
 go 1.17
 
