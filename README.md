@@ -1,8 +1,12 @@
 # ENV printer
 
-Support: 
-- [x] json
-- [X] yaml
+Support:
+- file format:
+  - [x] json
+  - [X] yaml
+- env format:
+  - [x] k8s
+  - [x] .env
 
 Install:
 ```sh
@@ -12,6 +16,7 @@ go get -u github.com/phamvinhdat/mo
     Usage:
     mo [command]
 
+    .env        .env env format
     Available Commands:
     completion  Generate the autocompletion script for the specified shell
     help        Help about any command

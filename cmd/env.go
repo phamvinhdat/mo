@@ -5,22 +5,22 @@ import (
 	"path"
 	"strings"
 
-	"github.com/phamvinhdat/mo/k8s"
+	"github.com/phamvinhdat/mo/env"
 
 	"github.com/spf13/cobra"
 )
 
-var k8sCmd = &cobra.Command{
-	Use:   "k8s",
-	Short: "k8s env format",
-	Run:   k8sCmdRun,
+var envCmd = &cobra.Command{
+	Use:   ".env",
+	Short: ".env env format",
+	Run:   envCmdRun,
 }
 
 func init() {
-	rootCmd.AddCommand(k8sCmd)
+	rootCmd.AddCommand(envCmd)
 }
 
-func k8sCmdRun(cmd *cobra.Command, _ []string) {
+func envCmdRun(cmd *cobra.Command, _ []string) {
 	if len(fileExtension) == 0 {
 		ext := path.Ext(file)
 		if len(ext) == 0 {
@@ -38,7 +38,7 @@ func k8sCmdRun(cmd *cobra.Command, _ []string) {
 		return
 	}
 
-	if err = k8s.PrintEnv(data, fileExtension, prefix); err != nil {
+	if err = env.PrintEnv(data, fileExtension, prefix); err != nil {
 		cmd.PrintErrln(err)
 		return
 	}
