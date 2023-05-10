@@ -38,7 +38,7 @@ func envCmdRun(cmd *cobra.Command, _ []string) {
 		return
 	}
 
-	if err = env.PrintEnv(data, fileExtension, prefix); err != nil {
+	if err = env.PrintEnv(data, fileExtension, prefix, arraySeparator); err != nil {
 		cmd.PrintErrln(err)
 		return
 	}

@@ -17,7 +17,7 @@ func (e env) String() string {
 	return fmt.Sprintf("%s=%s", name, e.Value)
 }
 
-func PrintEnv(data []byte, ext, prefix string) error {
+func PrintEnv(data []byte, ext, prefix, arraySeparator string) error {
 	var json gjson.Result
 	switch ext {
 	case "yaml", "yml":
@@ -33,11 +33,11 @@ func PrintEnv(data []byte, ext, prefix string) error {
 		return fmt.Errorf(".%s type does not support", ext)
 	}
 
-	printEnv(json, prefix)
+	printEnv(json, prefix, arraySeparator)
 	return nil
 }
 
-func printEnv(json gjson.Result, preKey string) {
+func printEnv(json gjson.Result, preKey, arraySeparator string) {
 	json.ForEach(func(key, value gjson.Result) bool {
 		k := key.String()
 		if len(preKey) > 0 {
@@ -45,7 +45,7 @@ func printEnv(json gjson.Result, preKey string) {
 		}
 
 		if value.IsObject() {
-			printEnv(value, k)
+			printEnv(value, k, arraySeparator)
 			return true
 		}
 

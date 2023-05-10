@@ -12,9 +12,10 @@ var rootCmd = &cobra.Command{
 }
 
 var (
-	file          string
-	prefix        string
-	fileExtension string
+	file           string
+	prefix         string
+	fileExtension  string
+	arraySeparator string
 )
 
 func Execute() {
@@ -28,6 +29,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&file, "file", "f", "", "config file. ex: ./config.yaml")
 	rootCmd.PersistentFlags().StringVarP(&prefix, "prefix", "p", "", "env's prefix")
 	rootCmd.PersistentFlags().StringVarP(&fileExtension, "extension", "e", "", "config file extension, require if file path don't contain extension")
+	rootCmd.PersistentFlags().StringVarP(&arraySeparator, "array_separator", "s", " ", "array separated")
 
 	err := rootCmd.MarkPersistentFlagRequired("file")
 	if err != nil {

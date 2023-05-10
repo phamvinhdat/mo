@@ -38,7 +38,7 @@ func k8sCmdRun(cmd *cobra.Command, _ []string) {
 		return
 	}
 
-	if err = k8s.PrintEnv(data, fileExtension, prefix); err != nil {
+	if err = k8s.PrintEnv(data, fileExtension, prefix, arraySeparator); err != nil {
 		cmd.PrintErrln(err)
 		return
 	}
